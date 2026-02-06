@@ -7,6 +7,7 @@ from secure_access.api_client import ApiClient
 from access_token import generate_access_token
 from secure_access.configuration import Configuration
 from secure_access.models import PutRuleRequest
+from config import config
 from secure_access.models import AddRuleRequest
 import json, argparse, logging, sys
 
@@ -20,10 +21,11 @@ handler.setFormatter(formatter)
 
 
 class AccessRulesBackupAndRestore:
-    def __init__(self, offset=None, limit=None, rules=None):
+    def __init__(self, offset=None, limit=None, rules=None, retries=None):
         self.access_token = generate_access_token()
         self.configuration = Configuration(
             access_token=self.access_token,
+            retries=retries
         )
         self.api_client = ApiClient(configuration=self.configuration)
         self.access_rule_list = []
@@ -174,12 +176,13 @@ if __name__ == "__main__":
     if args.type == "backup":
         if args.offset != None and args.limit !=None:
             access_rule = AccessRulesBackupAndRestore(offset = args.offset, 
-                                                      limit = args.limit)
+                                                      limit = args.limit,
+                                                      retries=config.get_retry())
             isListRules = True
         elif args.rules:
-            access_rule = AccessRulesBackupAndRestore(rules = args.rules)
+            access_rule = AccessRulesBackupAndRestore(rules = args.rules, retries=config.get_retry())
         else:
-            access_rule = AccessRulesBackupAndRestore()
+            access_rule = AccessRulesBackupAndRestore(retries=config.get_retry())
             isListRules = True
 
         if isListRules:
@@ -207,7 +210,7 @@ if __name__ == "__main__":
         logger.info("Taking backup of all the rules.")
         access_rule.backup_access_rule_list()
     elif args.type == "restore":
-        access_rule = AccessRulesBackupAndRestore()
+        access_rule = AccessRulesBackupAndRestore(retries=config.get_retry())
         logger.info("Parsing backed up access rules.")
         access_rule.parse_backup_access_rules()
         logger.info("Restoring the access rules.")

@@ -36,6 +36,29 @@ export CLIENT_ID="your_client_id"
 export CLIENT_SECRET="your_client_secret"
 ```
 
+### Retry Configuration
+
+The SDK supports automatic retry with exponential backoff using [urllib3's Retry](https://urllib3.readthedocs.io/en/stable/reference/urllib3.util.html#urllib3.util.Retry) class. Configure retries using the `retries` parameter in `Configuration`:
+
+```python
+from urllib3.util.retry import Retry
+from secure_access.configuration import Configuration
+from secure_access.api_client import ApiClient
+
+configuration = Configuration(
+    access_token=access_token,
+    retries=Retry(
+        total=3,  # Maximum number of retry attempts
+        backoff_factor=3,  # Wait time multiplier between retries: {backoff_factor} * (2 ** (retry_number - 1)) seconds. With factor=3: 0s, 3s, 6s delays
+        status_forcelist=[429],  # HTTP status codes that trigger a retry (429 = Too Many Requests / rate limited)
+        allowed_methods=["GET", "POST"]  # HTTP methods that are allowed to be retried
+    )
+)
+api_client = ApiClient(configuration=configuration)
+```
+
+To disable retry, omit the `retries` parameter or set it to `None`.
+
 ## Examples
 
 The `examples/` folder contains sample scripts demonstrating various use cases with the Cisco Secure Access SDK:

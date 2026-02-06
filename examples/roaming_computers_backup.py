@@ -6,6 +6,7 @@ from secure_access.api import roaming_computers_api
 from secure_access.api_client import ApiClient
 from access_token import generate_access_token
 from secure_access.configuration import Configuration
+from config import config
 import json, argparse, logging, sys, re
 from datetime import datetime, timedelta
 from typing import Dict, Any, List, Union
@@ -21,7 +22,7 @@ handler.setFormatter(formatter)
 
 class RoamingComputersBackup:
     def __init__(self, page_size=100, name=None, status=None, swg_status=None, 
-                 last_sync_before=None, last_sync_after=None):
+                 last_sync_before=None, last_sync_after=None, retries=None):
         """
         Initialize the RoamingComputersBackup class
         
@@ -31,10 +32,12 @@ class RoamingComputersBackup:
         :param swg_status: Filter by Internet security (SWG) status
         :param last_sync_before: Filter by last sync before this datetime
         :param last_sync_after: Filter by last sync after this datetime
+        :param retries: Retry configuration for API requests
         """
         self.access_token = generate_access_token()
         self.configuration = Configuration(
             access_token=self.access_token,
+            retries=retries
         )
         self.api_client = ApiClient(configuration=self.configuration)
         self.roaming_computers_list = []
@@ -854,7 +857,8 @@ Examples:
         status=args.status,
         swg_status=args.swg_status,
         last_sync_before=last_sync_before,
-        last_sync_after=last_sync_after
+        last_sync_after=last_sync_after,
+        retries=config.get_retry()
     )
     
     # Set custom backup file if provided
