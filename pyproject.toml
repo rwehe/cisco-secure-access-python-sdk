@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "secureaccess"
-version = "2.0.202510221109"
+version = "2.0.202605140830"
 description = "Cisco Secure Access Platform SDK for Python"
-authors = ["Raghavendra R rrevanap", "Yaron Caspy yaronca", "Akhil Nair akhinair", "Subrahmanya Mayya smayya"]
+authors = ["Akhil Nair akhinair", "Raghavendra R rrevanap", "Yaron Caspy yaronca", "Subrahmanya Mayya smayya"]
 license = "Apache-2.0"
 homepage = "https://developer.cisco.com/docs/cloud-security/"
 repository = "https://github.com/CiscoDevNet/cisco-secure-access-python-sdk"

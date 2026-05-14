@@ -59,6 +59,73 @@ api_client = ApiClient(configuration=configuration)
 
 To disable retry, omit the `retries` parameter or set it to `None`.
 
+### API Base URL Configuration
+
+The Cisco Secure Access API uses different base URLs depending on the endpoint type. The SDK provides three server configurations:
+
+| Server Index | URL | Use Case |
+|---|---|---|
+| `0` | `https://api.sse.cisco.com` | Admin, Policy, and Management APIs |
+| `1` | `https://api.sse.cisco.com/reports.{region}/v2` | Reporting APIs (with region variable) |
+| `2` | `https://api.sse.cisco.com/{basePath}` | Reporting APIs (without region, defaults to `reports/v2`) |
+
+#### Reporting APIs (with region)
+
+Reporting endpoints (e.g., Top Identities, Top Destinations, Activity) require a region-specific base URL. You can configure this using either `server_index` with `server_variables`, or by setting the `host` directly.
+
+**Option 1: Using `server_index` and `server_variables`**
+
+```python
+configuration = Configuration(
+    access_token=access_token,
+    server_index=1,
+    server_variables={"region": "us"},  # "us" or "eu"
+)
+```
+
+**Option 2: Using `host` directly**
+
+```python
+configuration = Configuration(
+    access_token=access_token,
+    host="https://api.sse.cisco.com/reports.us/v2",
+)
+```
+
+#### Reporting APIs (without region)
+
+If you do not need region-specific routing, use `server_index=2` which defaults to `reports/v2`.
+
+**Option 1: Using `server_index`**
+
+```python
+configuration = Configuration(
+    access_token=access_token,
+    server_index=2,
+)
+```
+
+**Option 2: Using `host` directly**
+
+```python
+configuration = Configuration(
+    access_token=access_token,
+    host="https://api.sse.cisco.com/reports/v2",
+)
+```
+
+#### Admin / Policy / Management APIs
+
+Non-reporting endpoints (e.g., Access Rules, Destination Lists, Roaming Computers) use the default base URL (`https://api.sse.cisco.com`, server index `0`). No additional configuration is needed — this is the default when `server_index` and `host` are not specified.
+
+```python
+configuration = Configuration(
+    access_token=access_token,
+)
+```
+
+> **Note:** If you need to use both reporting and non-reporting APIs in the same script, create separate `Configuration` and `ApiClient` instances for each.
+
 ## Examples
 
 The `examples/` folder contains sample scripts demonstrating various use cases with the Cisco Secure Access SDK:
