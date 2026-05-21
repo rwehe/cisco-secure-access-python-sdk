@@ -1,3 +1,6 @@
+[![PyPI version](https://img.shields.io/pypi/v/secureaccess.svg)](https://pypi.org/project/secureaccess/)
+[![Python versions](https://img.shields.io/pypi/pyversions/secureaccess.svg)](https://pypi.org/project/secureaccess/)
+
 # Cisco Secure Access Python SDK
 
 A Python SDK for interacting with Cisco Secure Access APIs.
@@ -8,6 +11,23 @@ A Python SDK for interacting with Cisco Secure Access APIs.
 - Valid API credentials
 
 ## Installation
+
+### From PyPI (recommended)
+
+```sh
+pip install secureaccess
+```
+
+> The distribution name on PyPI is `secureaccess`, but the import name is `secure_access`
+> (e.g. `from secure_access.configuration import Configuration`).
+
+### From source
+
+```sh
+git clone https://github.com/CiscoDevNet/cisco-secure-access-python-sdk.git
+cd cisco-secure-access-python-sdk
+pip install .
+```
 
 ### Prerequisites
 
