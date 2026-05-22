@@ -228,6 +228,98 @@ options:
   -h, --help            show this help message and exit
 ```
 
+### Alert Rules Management
+Manage alert rules (list, get, create, update, delete, update-status)
+```sh
+python examples/alert_rules.py -h
+usage: alert_rules.py [-h] {list,get,create,update,delete,update-status} ...
+
+Cisco Secure Access Alert Rules Management CLI
+
+positional arguments:
+  {list,get,create,update,delete,update-status}
+                        Available commands
+    list                List all alert rules
+    get                 Get a specific alert rule by ID
+    create              Create a new alert rule
+    update              Update an existing alert rule
+    delete              Delete one or more alert rules
+    update-status       Update the status of alert rules
+
+options:
+  -h, --help            show this help message and exit
+```
+
+### Alert Integration
+Create webhook integrations and associated alert rules end-to-end
+```sh
+python examples/alert_integration.py
+```
+
+### Complex Example
+Class-based client with idempotent operations for destination lists, network tunnel groups, private resources, and access policies
+```sh
+python examples/complex_example.py -h
+usage: complex_example.py [-h] -o {all,destination-list,network-tunnel-groups,private-resources,access-policy,list-network-tunnel-groups,list-private-resources,identities}
+                          [--ntg-id NTG_ID] [--pr-id PR_ID] [-v]
+
+Cisco Secure Access API Client - Create and manage resources with idempotent operations.
+
+options:
+  -h, --help            show this help message and exit
+  -o, --operation {all,destination-list,network-tunnel-groups,private-resources,access-policy,list-network-tunnel-groups,list-private-resources,identities}
+                        Operation to perform
+  --ntg-id NTG_ID       Network Tunnel Group ID (required for 'access-policy' operation when not running 'all')
+  --pr-id PR_ID         Private Resource ID (required for 'access-policy' operation when not running 'all')
+  -v, --verbose         Enable verbose/debug logging
+```
+
+### DLP Rule Events
+Retrieve DLP rule events (Real-Time, SaaS API, AI Guardrails) with regional endpoint support
+```sh
+python examples/dlp_rule_events.py -h
+usage: dlp_rule_events.py [-h] [--region {us,eu}] {list-realtime,list-saas,list-ai-guardrails,get} ...
+
+Cisco Secure Access DLP Rule Events Management CLI
+
+positional arguments:
+  {list-realtime,list-saas,list-ai-guardrails,get}
+                        Available commands
+    list-realtime       List Real-Time DLP rule events
+    list-saas           List SaaS API DLP rule events
+    list-ai-guardrails  List AI Guardrails DLP rule events
+    get                 Get DLP event details by ID
+
+options:
+  -h, --help            show this help message and exit
+  --region {us,eu}      API region: 'us' (default) or 'eu'
+```
+
+### Top Identities List
+Fetch top identities with pagination, export to JSON/CSV, and optional chart visualization
+```sh
+python examples/top_identities_list.py -h
+usage: top_identities_list.py [-h] [--from FROM] [--to TO] [--identitytypes TYPES]
+                              [--top-n N] [--format {json,csv}] [--output FILE]
+                              [--chart {none,bar,horizontal_bar,line,pie}]
+                              [--chart-output FILE] [--page-delay SECONDS]
+
+Fetch all top identities from Cisco Secure Access (last 7 days by default).
+
+options:
+  -h, --help            show this help message and exit
+  --from FROM           Start of time range (default: -7days)
+  --to TO               End of time range (default: now)
+  --identitytypes TYPES Identity type or comma-delimited list (e.g. 'roaming computers,users')
+  --top-n N             Keep only the top N records after fetching (default: all)
+  --format {json,csv}   Output format: json or csv (default: json)
+  --output FILE         Output file path (- for stdout, default: top_identities.json)
+  --chart {none,bar,horizontal_bar,line,pie}
+                        Chart type for visualization (default: none)
+  --chart-output FILE   File path to save the chart PNG (default: top_identities_chart.png)
+  --page-delay SECONDS  Seconds to sleep between page batches (default: 0)
+```
+
 ### Key Admin API Management
 Manage API keys and administrative functions
 ```sh
