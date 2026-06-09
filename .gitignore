@@ -1,1 +1,11 @@
 .DS_Store
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Poetry lockfile (not tracked upstream)
+poetry.lock
+
+# Local API credentials — never commit
+.env
