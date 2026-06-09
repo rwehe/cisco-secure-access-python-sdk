@@ -93,6 +93,9 @@ python_files = "test_*.py"
 python_classes = "Test*"
 python_functions = "test_*"
 addopts = "-v --cov=secure_access --cov-report=term-missing --cov-report=html"
+markers = [
+    "integration: tests that hit the live Cisco Secure Access API (require CLIENT_ID / CLIENT_SECRET)",
+]
 
 [tool.mypy]
 python_version = "3.9"

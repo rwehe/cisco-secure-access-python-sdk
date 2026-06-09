@@ -9,3 +9,8 @@ poetry.lock
 
 # Local API credentials — never commit
 .env
+
+# Test/coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/
